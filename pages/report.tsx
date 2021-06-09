@@ -1,0 +1,48 @@
+import Head from 'next/head'
+import { useQuery } from 'react-query'
+
+function useEntries() {
+	return useQuery<Entry[]>('entries', function () {
+		return fetch('/api/entries').then((response) => response.json())
+	})
+}
+
+type Entry = {
+	energy_level: number
+	timestamp: Date
+}
+
+export default function Home() {
+	const { data: entries, isLoading } = useEntries()
+	return (
+		<>
+			<Head>
+				<title>Energize</title>
+				<meta name="description" content="An experiment with energy levels" />
+				<link rel="icon" href="/favicon.ico" />
+			</Head>
+			<style>{``}</style>
+			<h1>Your data</h1>
+			{isLoading ? (
+				<p>Loading...</p>
+			) : (
+				<table>
+					<thead>
+						<tr>
+							<th>timestamp</th>
+							<th>energy level</th>
+						</tr>
+					</thead>
+					<tbody>
+						{entries.map(({ timestamp, energy_level }) => (
+							<tr key={timestamp}>
+								<td>{new Date(timestamp).toLocaleString()}</td>
+								<td>{energy_level}</td>
+							</tr>
+						))}
+					</tbody>
+				</table>
+			)}
+		</>
+	)
+}
