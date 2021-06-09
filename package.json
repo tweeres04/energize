@@ -5,7 +5,8 @@
 	"scripts": {
 		"dev": "next dev",
 		"build": "next build",
-		"start": "nodemon server/server.js"
+		"start": "nodemon server/server.js",
+		"db:reset": "knex migrate:rollback --all && knex migrate:latest && knex seed:run"
 	},
 	"dependencies": {
 		"date-fns": "^2.22.1",

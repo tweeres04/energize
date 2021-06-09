@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
-require('dotenv').config()
+require('dotenv').config({ path: '.env.local' })
 
 const { createServer } = require('http')
 const next = require('next')

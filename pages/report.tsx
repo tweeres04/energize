@@ -25,7 +25,7 @@ export default function Home() {
 			<h1>Your data</h1>
 			{isLoading ? (
 				<p>Loading...</p>
-			) : (
+			) : entries.length > 0 ? (
 				<table>
 					<thead>
 						<tr>
@@ -42,6 +42,8 @@ export default function Home() {
 						))}
 					</tbody>
 				</table>
+			) : (
+				<p>No data yet</p>
 			)}
 		</>
 	)

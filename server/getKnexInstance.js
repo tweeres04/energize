@@ -1,6 +1,6 @@
 const _knex = require('knex')
 
-const config = {
+const knex = _knex({
 	client: 'pg',
 	connection: {
 		host: process.env.HEROKU_DB_HOST,
@@ -9,14 +9,10 @@ const config = {
 		password: process.env.HEROKU_DB_PASSWORD,
 		ssl: { rejectUnauthorized: false },
 	},
-}
-
-const knex = _knex(config)
+})
 
 function getKnexInstance() {
 	return knex
 }
-
-getKnexInstance.config = config
 
 module.exports = getKnexInstance
