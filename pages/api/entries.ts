@@ -1,6 +1,6 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next'
-import getKnexInstance from '../../server/getKnexInstance'
+import getKnexInstance from '../../lib/getKnexInstance'
 
 const knex = getKnexInstance()
 

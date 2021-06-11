@@ -1,4 +1,4 @@
-const _knex = require('knex')
+import _knex from 'knex'
 
 const knex = _knex({
 	client: 'pg',
@@ -11,8 +11,6 @@ const knex = _knex({
 	},
 })
 
-function getKnexInstance() {
+export default function getKnexInstance() {
 	return knex
 }
-
-module.exports = getKnexInstance
