@@ -1,10 +1,18 @@
 import Head from 'next/head'
 import { useForm } from 'react-hook-form'
 
-export default function Home() {
-	const { register, handleSubmit, formState } = useForm()
+type FormData = {
+	energyLevel: string
+}
 
-	async function onSubmit(data) {
+export default function Home() {
+	const {
+		register,
+		handleSubmit,
+		formState: { isSubmitting, isSubmitSuccessful, isSubmitted },
+	} = useForm()
+
+	async function onSubmit(data: FormData) {
 		await fetch('/api/entries', {
 			method: 'POST',
 			body: JSON.stringify(data),
@@ -20,7 +28,10 @@ export default function Home() {
 				<meta name="description" content="An experiment with energy levels" />
 				<link rel="icon" href="/favicon.ico" />
 			</Head>
-			<style>{`
+			{isSubmitSuccessful && <h1>Entry submitted!</h1>}
+			{!isSubmitted && (
+				<>
+					<style>{`
 				.control {
 					display: flex;
 					justify-content: space-around;
@@ -31,62 +42,66 @@ export default function Home() {
 					padding: 1rem;
 				}
 			`}</style>
-			<h1>What's your energy level like?</h1>
-			<form onSubmit={handleSubmit(onSubmit)}>
-				<div className="control">
-					<label>
-						1
-						<input
-							type="radio"
-							{...register('energyLevel', {
-								required: true,
-							})}
-							value="1"
-						/>
-					</label>
-					<label>
-						2
-						<input
-							type="radio"
-							{...register('energyLevel', {
-								required: true,
-							})}
-							value="2"
-						/>
-					</label>
-					<label>
-						3
-						<input
-							type="radio"
-							{...register('energyLevel', {
-								required: true,
-							})}
-							value="3"
-						/>
-					</label>
-					<label>
-						4
-						<input
-							type="radio"
-							{...register('energyLevel', {
-								required: true,
-							})}
-							value="4"
-						/>
-					</label>
-					<label>
-						5
-						<input
-							type="radio"
-							{...register('energyLevel', {
-								required: true,
-							})}
-							value="5"
-						/>
-					</label>
-				</div>
-				<button type="submit">Submit</button>
-			</form>
+					<h1>What&apos;s your energy level like?</h1>
+					<form onSubmit={handleSubmit(onSubmit)}>
+						<div className="control">
+							<label>
+								1
+								<input
+									type="radio"
+									{...register('energyLevel', {
+										required: true,
+									})}
+									value="1"
+								/>
+							</label>
+							<label>
+								2
+								<input
+									type="radio"
+									{...register('energyLevel', {
+										required: true,
+									})}
+									value="2"
+								/>
+							</label>
+							<label>
+								3
+								<input
+									type="radio"
+									{...register('energyLevel', {
+										required: true,
+									})}
+									value="3"
+								/>
+							</label>
+							<label>
+								4
+								<input
+									type="radio"
+									{...register('energyLevel', {
+										required: true,
+									})}
+									value="4"
+								/>
+							</label>
+							<label>
+								5
+								<input
+									type="radio"
+									{...register('energyLevel', {
+										required: true,
+									})}
+									value="5"
+								/>
+							</label>
+						</div>
+						<button type="submit" disabled={isSubmitting}>
+							Submit
+						</button>
+					</form>
+				</>
+			)}
 		</>
 	)
 }
