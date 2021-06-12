@@ -23,14 +23,19 @@ const knex = getKnexInstance()
 
 export default async function (req: NextApiRequest, res: NextApiResponse) {
 	if (req.method === 'POST') {
-		queuePromptsForDay()
-		res.status(204).send(null)
+		try {
+			await queuePromptsForDay()
+			res.status(204).send(null)
+		} catch (err) {
+			console.error(err)
+			res.status(500).send(err)
+		}
 	} else {
 		res.status(405).send(null)
 	}
 }
 
-function queuePromptsForDay() {
+async function queuePromptsForDay() {
 	console.log('Job run at ', new Date().toLocaleString())
 
 	const eachHour = dateFns.eachHourOfInterval({
@@ -40,29 +45,33 @@ function queuePromptsForDay() {
 
 	const promptTimes = new Set(_.sampleSize(eachHour, 2))
 
-	promptTimes.forEach(async (promptTime) => {
+	const promises = Array.from(promptTimes).map(async (promptTime) => {
 		const emails = await getUserEmails()
 		console.log(
 			`Will send prompt to ${emails.join(
 				', '
 			)} at ${promptTime.toLocaleString()}`
 		)
-		emails.forEach((email) => {
-			mailgun.messages().send(
-				{
+		const promises = emails.map((email) =>
+			mailgun
+				.messages()
+				.send({
 					from: 'Energize <prompt@energize.tweeres.ca>',
 					to: email,
 					subject: "What's your energy level?",
 					text: `What's your energy level? Log it here:\n\n${url}`,
 					'o:deliverytime': (promptTime.getTime() / 1000).toString(),
-				},
-				(error, body) => {
+				})
+				.then((body) => {
 					console.log(body)
 					console.log(`Sent an entry prompt to ${email}`)
-				}
-			)
-		})
+				})
+		)
+
+		await Promise.all(promises)
 	})
+
+	await Promise.all(promises)
 }
 
 async function getUserEmails() {
