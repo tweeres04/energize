@@ -43,7 +43,9 @@ async function queuePromptsForDay() {
 		end: dateFns.set(new Date(), { hours: 23, minutes: 0, seconds: 0 }),
 	})
 
-	const promptTimes = new Set(_.sampleSize(eachHour, 2))
+	// Supposed to be a 50% chance of no prompt in the day
+	const promptTimes =
+		_.random(0, 1) === 0 ? [] : new Set(_.sampleSize(eachHour, 1))
 
 	const promises = Array.from(promptTimes).map(async (promptTime) => {
 		const emails = await getUserEmails()
