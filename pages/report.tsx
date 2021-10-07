@@ -1,6 +1,8 @@
 import Head from 'next/head'
 import { useQuery } from 'react-query'
 
+import Spinner from '../components/spinner'
+
 function useEntries() {
 	return useQuery<Entry[]>(
 		'entries',
@@ -30,7 +32,7 @@ export default function Report() {
 			<div className="container">
 				<h1>Your data</h1>
 				{isLoading ? (
-					<p>Loading...</p>
+					<Spinner />
 				) : entries.length > 0 ? (
 					<table className="table">
 						<thead>
