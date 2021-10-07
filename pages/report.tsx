@@ -2,9 +2,15 @@ import Head from 'next/head'
 import { useQuery } from 'react-query'
 
 function useEntries() {
-	return useQuery<Entry[]>('entries', function () {
-		return fetch('/api/entries').then((response) => response.json())
-	})
+	return useQuery<Entry[]>(
+		'entries',
+		function () {
+			return fetch('/api/entries').then((response) => response.json())
+		},
+		{
+			staleTime: 1000 * 60 * 5, // Should be 5 mins
+		}
+	)
 }
 
 type Entry = {
