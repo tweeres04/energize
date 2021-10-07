@@ -12,7 +12,7 @@ type Entry = {
 	timestamp: Date
 }
 
-export default function Home() {
+export default function Report() {
 	const { data: entries, isLoading } = useEntries()
 	return (
 		<>
@@ -21,30 +21,31 @@ export default function Home() {
 				<meta name="description" content="An experiment with energy levels" />
 				<link rel="icon" href="/favicon.ico" />
 			</Head>
-			<style>{``}</style>
-			<h1>Your data</h1>
-			{isLoading ? (
-				<p>Loading...</p>
-			) : entries.length > 0 ? (
-				<table>
-					<thead>
-						<tr>
-							<th>timestamp</th>
-							<th>energy level</th>
-						</tr>
-					</thead>
-					<tbody>
-						{entries.map(({ timestamp, energy_level }) => (
-							<tr key={timestamp}>
-								<td>{new Date(timestamp).toLocaleString()}</td>
-								<td>{energy_level}</td>
+			<div className="container">
+				<h1>Your data</h1>
+				{isLoading ? (
+					<p>Loading...</p>
+				) : entries.length > 0 ? (
+					<table className="table">
+						<thead>
+							<tr>
+								<th>timestamp</th>
+								<th>energy level</th>
 							</tr>
-						))}
-					</tbody>
-				</table>
-			) : (
-				<p>No data yet</p>
-			)}
+						</thead>
+						<tbody>
+							{entries.map(({ timestamp, energy_level }) => (
+								<tr key={timestamp}>
+									<td>{new Date(timestamp).toLocaleString()}</td>
+									<td>{energy_level}</td>
+								</tr>
+							))}
+						</tbody>
+					</table>
+				) : (
+					<p>No data yet</p>
+				)}
+			</div>
 		</>
 	)
 }

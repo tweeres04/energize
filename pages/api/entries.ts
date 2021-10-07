@@ -14,9 +14,12 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
 		})
 		res.status(204).send(null)
 	} else if (req.method === 'GET') {
-		const entries = await knex('entries').select('*').where({
-			user_id: 1,
-		})
+		const entries = await knex('entries')
+			.select('*')
+			.where({
+				user_id: 1,
+			})
+			.orderBy('timestamp', 'desc')
 		res.send(entries)
 	}
 }
