@@ -1,5 +1,6 @@
 import Head from 'next/head'
 import { useQuery } from 'react-query'
+import { round, toNumber } from 'lodash'
 
 import {
 	ResponsiveContainer,
@@ -45,13 +46,13 @@ export default function Charts() {
 
 	const dayOfWeekData = (query.data?.byDayOfWeek || []).map(({ dow, avg }) => ({
 		dow: dayOfWeekMap[dow],
-		avg: parseFloat(avg),
+		avg: round(toNumber(avg), 2),
 	}))
 
 	const timeOfDayData = (query.data?.byTimeOfDay || []).map(
 		({ hour, avg }) => ({
 			hour: `${hour}:00`,
-			avg: parseFloat(avg),
+			avg: round(toNumber(avg), 2),
 		})
 	)
 
@@ -69,7 +70,7 @@ export default function Charts() {
 					<ResponsiveContainer width="100%" height={500}>
 						<BarChart data={dayOfWeekData} width={1200} height={500}>
 							<Tooltip />
-							<Bar dataKey="avg" />
+							<Bar dataKey="avg" label={{ fill: 'white' }} />
 							<XAxis dataKey="dow" />
 							<YAxis />
 							<CartesianGrid />
@@ -81,7 +82,7 @@ export default function Charts() {
 					<ResponsiveContainer width="100%" height={500}>
 						<BarChart data={timeOfDayData} width={1200} height={500}>
 							<Tooltip />
-							<Bar dataKey="avg" />
+							<Bar dataKey="avg" label={{ fill: 'white' }} />
 							<XAxis dataKey="hour" />
 							<YAxis />
 							<CartesianGrid />
