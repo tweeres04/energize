@@ -39,15 +39,15 @@ export default function Report() {
 					<table className="table">
 						<thead>
 							<tr>
-								<th>timestamp</th>
-								<th>energy level</th>
+								<th>Timestamp</th>
+								<th className="text-end">Energy level</th>
 							</tr>
 						</thead>
 						<tbody>
 							{entries.map(({ timestamp, energy_level }) => (
 								<tr key={timestamp}>
 									<td>{new Date(timestamp).toLocaleString()}</td>
-									<td>{energy_level}</td>
+									<td className="text-end">{energy_level}</td>
 								</tr>
 							))}
 						</tbody>
