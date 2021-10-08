@@ -2,6 +2,7 @@ import Head from 'next/head'
 import { useQuery } from 'react-query'
 import { round, toNumber } from 'lodash'
 
+import Nav from '../components/nav'
 import Spinner from '../components/spinner'
 
 import {
@@ -65,33 +66,36 @@ export default function Charts() {
 				<meta name="description" content="An experiment with energy levels" />
 				<link rel="icon" href="/favicon.ico" />
 			</Head>
-			{query.isLoading ? (
-				<Spinner />
-			) : (
-				<div className="container">
-					<h1>Your energy levels</h1>
-					<h3>By day of week</h3>
-					<ResponsiveContainer width="100%" height={500}>
-						<BarChart data={dayOfWeekData} width={1200} height={500}>
-							<Tooltip />
-							<Bar dataKey="avg" label={{ fill: 'white' }} />
-							<XAxis dataKey="dow" />
-							<YAxis />
-							<CartesianGrid />
-						</BarChart>
-					</ResponsiveContainer>
-					<h3>By time of day</h3>
-					<ResponsiveContainer width="100%" height={500}>
-						<BarChart data={timeOfDayData} width={1200} height={500}>
-							<Tooltip />
-							<Bar dataKey="avg" label={{ fill: 'white' }} />
-							<XAxis dataKey="hour" />
-							<YAxis />
-							<CartesianGrid />
-						</BarChart>
-					</ResponsiveContainer>
-				</div>
-			)}
+			<div className="container">
+				<Nav />
+				<h1>Your energy levels</h1>
+				{query.isLoading ? (
+					<Spinner />
+				) : (
+					<>
+						<h3>By day of week</h3>
+						<ResponsiveContainer width="100%" height={500}>
+							<BarChart data={dayOfWeekData} width={1200} height={500}>
+								<Tooltip />
+								<Bar dataKey="avg" label={{ fill: 'white' }} />
+								<XAxis dataKey="dow" />
+								<YAxis />
+								<CartesianGrid />
+							</BarChart>
+						</ResponsiveContainer>
+						<h3>By time of day</h3>
+						<ResponsiveContainer width="100%" height={500}>
+							<BarChart data={timeOfDayData} width={1200} height={500}>
+								<Tooltip />
+								<Bar dataKey="avg" label={{ fill: 'white' }} />
+								<XAxis dataKey="hour" />
+								<YAxis />
+								<CartesianGrid />
+							</BarChart>
+						</ResponsiveContainer>
+					</>
+				)}
+			</div>
 		</>
 	)
 }

@@ -1,5 +1,6 @@
 import Head from 'next/head'
 import { useForm } from 'react-hook-form'
+import Nav from '../components/nav'
 
 type FormData = {
 	energyLevel: string
@@ -29,6 +30,7 @@ export default function Home() {
 				<link rel="icon" href="/favicon.ico" />
 			</Head>
 			<div className="container">
+				<Nav />
 				{isSubmitSuccessful && <h1>Entry submitted!</h1>}
 				{!isSubmitted && (
 					<>

@@ -1,5 +1,6 @@
 import Head from 'next/head'
 import { useQuery } from 'react-query'
+import Nav from '../components/nav'
 
 import Spinner from '../components/spinner'
 
@@ -30,6 +31,7 @@ export default function Report() {
 				<link rel="icon" href="/favicon.ico" />
 			</Head>
 			<div className="container">
+				<Nav />
 				<h1>Your data</h1>
 				{isLoading ? (
 					<Spinner />
