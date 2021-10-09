@@ -1,3 +1,4 @@
+import { withPageAuthRequired } from '@auth0/nextjs-auth0'
 import Head from 'next/head'
 import { useQuery } from 'react-query'
 import { round, toNumber } from 'lodash'
@@ -44,7 +45,7 @@ function useEntries() {
 	)
 }
 
-export default function Charts() {
+export default withPageAuthRequired(function Charts() {
 	const query = useEntries()
 
 	const dayOfWeekData = (query.data?.byDayOfWeek || []).map(({ dow, avg }) => ({
@@ -98,4 +99,4 @@ export default function Charts() {
 			</div>
 		</>
 	)
-}
+})

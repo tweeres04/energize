@@ -1,3 +1,4 @@
+import { withPageAuthRequired } from '@auth0/nextjs-auth0'
 import Head from 'next/head'
 import { useForm } from 'react-hook-form'
 import Nav from '../components/nav'
@@ -6,7 +7,7 @@ type FormData = {
 	energyLevel: string
 }
 
-export default function Home() {
+export default withPageAuthRequired(function Home() {
 	const {
 		register,
 		handleSubmit,
@@ -75,4 +76,4 @@ export default function Home() {
 			</div>
 		</>
 	)
-}
+})

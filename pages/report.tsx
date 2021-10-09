@@ -1,3 +1,4 @@
+import { withPageAuthRequired } from '@auth0/nextjs-auth0'
 import Head from 'next/head'
 import { useQuery } from 'react-query'
 import Nav from '../components/nav'
@@ -21,8 +22,9 @@ type Entry = {
 	timestamp: Date
 }
 
-export default function Report() {
+export default withPageAuthRequired(function Report() {
 	const { data: entries, isLoading } = useEntries()
+
 	return (
 		<>
 			<Head>
@@ -58,4 +60,4 @@ export default function Report() {
 			</div>
 		</>
 	)
-}
+})

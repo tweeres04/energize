@@ -9,6 +9,7 @@
 		"db:reset": "knex migrate:rollback --all && knex migrate:latest && knex seed:run"
 	},
 	"dependencies": {
+		"@auth0/nextjs-auth0": "^1.5.0",
 		"clsx": "^1.1.1",
 		"date-fns": "^2.22.1",
 		"dotenv": "^10.0.0",

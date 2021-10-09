@@ -1,11 +1,15 @@
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
+import { getSession, withApiAuthRequired } from '@auth0/nextjs-auth0'
 import type { NextApiRequest, NextApiResponse } from 'next'
 import getKnexInstance from '../../lib/getKnexInstance'
 
 const knex = getKnexInstance()
 
-export default async function (req: NextApiRequest, res: NextApiResponse) {
+export default withApiAuthRequired(async function charts(
+	req: NextApiRequest,
+	res: NextApiResponse
+) {
 	if (req.method === 'GET') {
+		const session = getSession(req, res)
 		const byDayOfWeekPromise = knex('entries')
 			.select(
 				knex.raw(
@@ -14,7 +18,7 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
 			)
 			.avg('energy_level')
 			.where({
-				user_id: 1,
+				user_id: session.user.sub,
 			})
 			.groupBy('dow')
 
@@ -26,7 +30,7 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
 			)
 			.avg('energy_level')
 			.where({
-				user_id: 1,
+				user_id: session.user.sub,
 			})
 			.groupBy('hour')
 
@@ -37,4 +41,4 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
 
 		res.send({ byDayOfWeek, byTimeOfDay })
 	}
-}
+})
