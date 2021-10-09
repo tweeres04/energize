@@ -37,7 +37,7 @@ export default withPageAuthRequired(function Home() {
 					<>
 						<h1>What&apos;s your energy level like?</h1>
 						<form onSubmit={handleSubmit(onSubmit)}>
-							<div className="mb-3 h3">
+							<div className="my-4 h1">
 								{Array.from({ length: 5 }).map((_, n) => {
 									n = n + 1
 									return (
