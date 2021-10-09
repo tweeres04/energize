@@ -21,6 +21,7 @@ export default withApiAuthRequired(async function charts(
 				user_id: session.user.sub,
 			})
 			.groupBy('dow')
+			.orderBy('dow')
 
 		const byTimeOfDayPromise = knex('entries')
 			.select(
@@ -33,6 +34,7 @@ export default withApiAuthRequired(async function charts(
 				user_id: session.user.sub,
 			})
 			.groupBy('hour')
+			.orderBy('hour')
 
 		const [byDayOfWeek, byTimeOfDay] = await Promise.all([
 			byDayOfWeekPromise,
