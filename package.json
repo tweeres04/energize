@@ -10,6 +10,7 @@
 	},
 	"dependencies": {
 		"@auth0/nextjs-auth0": "^1.5.0",
+		"auth0": "^2.42.0",
 		"clsx": "^1.1.1",
 		"date-fns": "^2.22.1",
 		"dotenv": "^10.0.0",
@@ -25,6 +26,7 @@
 		"recharts": "^2.1.4"
 	},
 	"devDependencies": {
+		"@types/auth0": "^2.35.3",
 		"@types/lodash": "^4.14.170",
 		"@types/mailgun-js": "^0.22.11",
 		"@types/react": "17.0.8",

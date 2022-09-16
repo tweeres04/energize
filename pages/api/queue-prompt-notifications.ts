@@ -5,6 +5,8 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 import _ from 'lodash'
 import * as dateFns from 'date-fns'
 
+import { ManagementClient } from 'auth0'
+
 import mailgun_ from 'mailgun-js'
 
 const mailgun = mailgun_({
@@ -77,5 +79,14 @@ async function queuePromptsForDay() {
 }
 
 async function getUserEmails() {
-	return (await knex('users').select('email')).map(({ email }) => email)
+	const auth0 = new ManagementClient({
+		domain: process.env.AUTH0_BASE_URL as string,
+		clientId: process.env.AUTH0_CLIENT_ID,
+		clientSecret: process.env.AUTH0_CLIENT_SECRET,
+		scope: 'read:users',
+	})
+
+	const users = await auth0.getUsers()
+
+	return users.map((user) => user.email as string)
 }
