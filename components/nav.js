@@ -12,27 +12,28 @@ export default function Nav() {
 			<div className="col">
 				<ul className="nav nav-pills my-3">
 					<li className="nav-item">
-						<Link href="/">
-							<a
-								className={clsx('nav-link', { active: path === '/' })}
-								aria-current="page"
-							>
-								Entry
-							</a>
+						<Link
+							href="/"
+							className={clsx('nav-link', { active: path === '/' })}
+							aria-current="page"
+						>
+							Entry
 						</Link>
 					</li>
 					<li className="nav-item">
-						<Link href="/charts">
-							<a className={clsx('nav-link', { active: path === '/charts' })}>
-								Charts
-							</a>
+						<Link
+							href="/charts"
+							className={clsx('nav-link', { active: path === '/charts' })}
+						>
+							Charts
 						</Link>
 					</li>
 					<li className="nav-item">
-						<Link href="/report">
-							<a className={clsx('nav-link', { active: path === '/report' })}>
-								Report
-							</a>
+						<Link
+							href="/report"
+							className={clsx('nav-link', { active: path === '/report' })}
+						>
+							Report
 						</Link>
 					</li>
 				</ul>

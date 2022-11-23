@@ -14,15 +14,6 @@ const mailgun = mailgun_({
 	domain: process.env.MAILGUN_DOMAIN || '',
 })
 
-import getKnexInstance from '../../lib/getKnexInstance'
-
-const url =
-	process.env.NODE_ENV !== 'production'
-		? `http://localhost:3000`
-		: 'https://energize.tweeres.ca'
-
-const knex = getKnexInstance()
-
 export default async function (req: NextApiRequest, res: NextApiResponse) {
 	if (req.method === 'POST') {
 		try {
@@ -63,7 +54,7 @@ async function queuePromptsForDay() {
 					from: 'Energize <prompt@energize.tweeres.ca>',
 					to: email,
 					subject: "What's your energy level?",
-					text: `What's your energy level? Log it here:\n\n${url}`,
+					text: `What's your energy level? Log it here:\n\nhttps://energize.tweeres.ca`,
 					'o:deliverytime': (promptTime.getTime() / 1000).toString(),
 				})
 				.then((body) => {
@@ -79,8 +70,9 @@ async function queuePromptsForDay() {
 }
 
 async function getUserEmails() {
+	const domain = new URL(process.env.AUTH0_ISSUER_BASE_URL as string).hostname
 	const auth0 = new ManagementClient({
-		domain: process.env.AUTH0_BASE_URL as string,
+		domain,
 		clientId: process.env.AUTH0_CLIENT_ID,
 		clientSecret: process.env.AUTH0_CLIENT_SECRET,
 		scope: 'read:users',
